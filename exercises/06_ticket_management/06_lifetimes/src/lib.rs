@@ -1,3 +1,5 @@
+use std::array::IntoIter;
+
 use ticket_fields::{TicketDescription, TicketTitle};
 
 // TODO: Implement the `IntoIterator` trait for `&TicketStore` so that the test compiles and passes.
@@ -18,6 +20,15 @@ pub enum Status {
     ToDo,
     InProgress,
     Done,
+}
+
+impl<'a> IntoIterator for &'a TicketStore {
+    type Item = &'a Ticket;
+    type IntoIter = std::slice::Iter<'a, Ticket>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.tickets.iter()
+    }
 }
 
 impl TicketStore {
